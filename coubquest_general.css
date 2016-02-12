@@ -1,0 +1,80 @@
+.row {
+    display:inline-flex;
+}
+.cell {
+    content: url('res/background.png');
+    background-color: #9a5c35;
+    width:75px;
+    height:75px;
+    margin:4px;
+    border-radius: 5px;
+}
+.grid {
+    display:table-caption;
+    background-color: #5a3320;
+    border-radius: 5px;
+    border-bottom-width: 2px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+}
+
+.coub {
+    background-color:red;
+    width:75px;
+    height:75px;
+    border-radius: 5px;
+    z-index:2;
+}
+
+.finish {
+    content: url('res/finish.svg');
+    background-color:yellow;
+    width:75px;
+    height:75px;
+    margin:4px;
+    border-radius: 5px;
+    z-index:1;
+}
+.notMovingBlock {
+    content: url('res/block.png');
+    background-color:grey;
+    width:75px;
+    height:75px;
+    margin:4px;
+    border-radius: 5px;
+    z-index:2;
+}
+
+.movingBlock {
+    content: url('res/moving_block.png');
+    background-color:saddlebrown;
+    width:75px;
+    height:75px;
+    border-radius: 5px;
+    z-index:2;
+}
+
+.teleportBlock {
+    content: url('res/teleport.png');
+    width:75px;
+    height:75px;
+    border-radius: 5px;
+    z-index:1;
+}
+
+.dorButton {
+    content: url('res/button.png');
+    width:75px;
+    height:75px;
+    border-radius: 5px;
+    z-index:1;
+}
+
+.dorClosed {
+    content: url('res/dor.png');
+    width:75px;
+    height:75px;
+    border-radius: 5px;
+    z-index:1;
+}
