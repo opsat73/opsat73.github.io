@@ -4,7 +4,8 @@
  * @param Parent
  */
 function extend(Child, Parent) {
-    var F = function() { }
+    var F = function () {
+    }
     F.prototype = Parent.prototype
     Child.prototype = new F()
     Child.prototype.constructor = Child
@@ -18,16 +19,26 @@ function extend(Child, Parent) {
  */
 function codeToColor(code) {
     switch (code) {
-        case 1: return '#6c7600';
-        case 2: return '#34760e';
-        case 3: return '#297673';
-        case 4: return '#453f76';
-        case 5: return '#762975';
-        case 6: return '#766659';
-        case 7: return '#76251c';
-        case 8: return '#e96a13';
-        case 9: return '#53e923';
-        case 0: return '#717be9';
+        case 1:
+            return '#6c7600';
+        case 2:
+            return '#34760e';
+        case 3:
+            return '#297673';
+        case 4:
+            return '#453f76';
+        case 5:
+            return '#762975';
+        case 6:
+            return '#766659';
+        case 7:
+            return '#76251c';
+        case 8:
+            return '#e96a13';
+        case 9:
+            return '#53e923';
+        case 0:
+            return '#717be9';
     }
 }
 
@@ -42,7 +53,7 @@ function codeToColor(code) {
 function Vector(x, y, direction, length) {
     this.x = x;
     this.y = y;
-    if (length ==  undefined) {
+    if (length == undefined) {
         this.length = 1;
     } else {
         this.length = length;
@@ -56,10 +67,26 @@ function Vector(x, y, direction, length) {
     this.getEndPoint = function () {
         result = {'x': this.x, 'y': this.y};
         switch (this.direction) {
-            case 1 : {result['x'] = result['x'] - this.length} break;
-            case 2 : {result['y'] = result['y'] + this.length} break;
-            case 3 : {result['x'] = result['x'] + this.length} break;
-            case 4 : {result['y'] = result['y'] - this.length} break;
+            case 1 :
+            {
+                result['x'] = result['x'] - this.length
+            }
+                break;
+            case 2 :
+            {
+                result['y'] = result['y'] + this.length
+            }
+                break;
+            case 3 :
+            {
+                result['x'] = result['x'] + this.length
+            }
+                break;
+            case 4 :
+            {
+                result['y'] = result['y'] - this.length
+            }
+                break;
         }
         return result;
     }
@@ -75,19 +102,19 @@ function Gamefield() {
      * @param rows count ow rows
      * @param cols cont of columns
      */
-    this.render = function(rows, cols) {
+    this.render = function (rows, cols) {
         var grid = $(".gamefield").first();
 
-        for (var i = 0; i <rows; i++) {
-            grid.append("<div id ='"+ i + "' class ='row'></div>")
+        for (var i = 0; i < rows; i++) {
+            grid.append("<div id ='" + i + "' class ='row'></div>")
         }
         rows = $('.row');
         for (var i = 0; i < cols; i++) {
-             rows.append("<div id ='"+ i + "' class ='cell'></div>");
+            rows.append("<div id ='" + i + "' class ='cell'></div>");
         }
         cells = $('.cell');
-        $.each(cells, function(index, cell) {
-            $(cell).attr('id', $(cell).parent().attr('id')+$(cell).attr('id'));
+        $.each(cells, function (index, cell) {
+            $(cell).attr('id', $(cell).parent().attr('id') + $(cell).attr('id'));
         })
     }
 }
@@ -103,105 +130,129 @@ function Gamefield() {
 function CoubObject(type, x, y, params) {
     this.rx = x;
     this.ry = y;
-    this.ax = this.rx*75;
-    this.ay = this.ry*75;
-    this.node = $('<div>',{class : type});
+    this.ax = this.rx * 75;
+    this.ay = this.ry * 75;
+    this.node = $('<div>', {class: type});
     $('body').first().append(this.node);
-    var newPosition = $('#' + x+ +y).first().offset();
+    var newPosition = $('#' + x + +y).first().offset();
     this.node.css({position: 'absolute'});
     this.node.offset(newPosition);
+}
 
-    /**
-     * move to relation coordinats
-     * @param x row
-     * @param y column
-     * @param after function which will be executed after moving
-     */
-    CoubObject.prototype.movetor = function(x,y, after) {
-        this.rx = x;
-        this.ry = y;
-        this.ax = this.rx*75;
-        this.ay = this.ry*75;
-        newPosition = $('#' + this.rx+ +this.ry).first().offset();
-        this.movetoa(newPosition.top, newPosition.left, after);
-    };
+/**
+ * move to relation coordinats
+ * @param x row
+ * @param y column
+ * @param after function which will be executed after moving
+ */
+CoubObject.prototype.movetor = function (x, y, after) {
+    this.rx = x;
+    this.ry = y;
+    this.ax = this.rx * 75;
+    this.ay = this.ry * 75;
+    newPosition = $('#' + this.rx + +this.ry).first().offset();
+    this.movetoa(newPosition.top, newPosition.left, after);
+};
 
-    /**
-     * move to absolute coordinats on window
-     * @param x left position
-     * @param y top position
-     * @param after function which will be executed after moving
-     */
-    CoubObject.prototype.movetoa = function(x,y, after) {
-        this.node.animate({top: x, left: y},150, after);
-    };
+/**
+ * move to absolute coordinats on window
+ * @param x left position
+ * @param y top position
+ * @param after function which will be executed after moving
+ */
+CoubObject.prototype.movetoa = function (x, y, after) {
+    this.node.animate({top: x, left: y}, 150, after);
+};
 
-    /**
-     * move action
-     * @param direction 1 - up 2 - right 3 - down 4 -  left
-     * @param after
-     */
-    CoubObject.prototype.move = function(direction, after) {
-        vector = new Vector(this.rx, this.ry, direction);
-        position = vector.getEndPoint();
-        this.movetor(position['x'], position['y'], after);
-    };
+/**
+ * move action
+ * @param direction 1 - up 2 - right 3 - down 4 -  left
+ * @param after
+ */
+CoubObject.prototype.move = function (direction, after) {
+    vector = new Vector(this.rx, this.ry, direction);
+    position = vector.getEndPoint();
+    this.movetor(position['x'], position['y'], after);
+};
 
-    /**
-     * tremor in direction
-     */
-    CoubObject.prototype.tremor = function(direction) {
-        if (direction == 1 || direction == 3){
-            vector = 'top';
-        } else {
-            vector = 'left';
-        }
-        if ((direction == 2) || (direction == 3))
-            foward = '+';
-        else {
-            foward = '-';
-        }
-        backward = foward =='-'? '+' : '-';
-
-        this.node.animate({[vector]: foward+"=8"},50);
-        this.node.animate({[vector]: backward+"=8"},50);
-        this.node.animate({[vector]: foward+"=4"},50);
-        this.node.animate({[vector]: backward+"=4"},50);
-    };
-
-     /**
-      * check if coub can move there. check end of grid
-      * @param direction direction for moving
-      * @returns return true if coub can move
-      */
-    CoubObject.prototype.canCoubMoveThere = function (direction) {
-        newPosition = new Vector(this.rx, this.ry, direction).getEndPoint();
-        if ((newPosition.x  >= 0) && (newPosition.x  <= 6) &&
-            (newPosition.y  >= 0) && (newPosition.y  <= 6)) {
-                return true
-        } else {
-            return false;
-        }
-    };
-
-    /**
-     * abstract action with logging
-     */
-    CoubObject.prototype.coubMovedThere = function() {
-        console.log("coub moved there");
-    };
-    /**
-     * abstract action with logging
-     */
-    CoubObject.prototype.coubMovedOutThere = function() {
-        console.log("coub moved out there");
-    };
-    /**
-     * abstract action with logging
-     */
-    CoubObject.prototype.coubMovedDuring = function(direction) {
-        console.log("coum moving now");
+/**
+ * tremor in direction
+ */
+CoubObject.prototype.tremor = function (direction) {
+    if (direction == 1 || direction == 3) {
+        vector = 'top';
+    } else {
+        vector = 'left';
     }
+    if ((direction == 2) || (direction == 3))
+        foward = '+';
+    else {
+        foward = '-';
+    }
+    backward = foward == '-' ? '+' : '-';
+
+    this.node.animate({[vector]
+    :
+    foward + "=8"
+}, 50
+)
+;
+this.node.animate({[vector]
+:
+backward + "=8"
+},
+50
+)
+;
+this.node.animate({[vector]
+:
+foward + "=4"
+},
+50
+)
+;
+this.node.animate({[vector]
+:
+backward + "=4"
+},
+50
+)
+;
+}
+;
+
+/**
+ * check if coub can move there. check end of grid
+ * @param direction direction for moving
+ * @returns return true if coub can move
+ */
+CoubObject.prototype.canCoubMoveThere = function (direction) {
+    newPosition = new Vector(this.rx, this.ry, direction).getEndPoint();
+    if ((newPosition.x >= 0) && (newPosition.x <= 6) &&
+        (newPosition.y >= 0) && (newPosition.y <= 6)) {
+        return true
+    } else {
+        return false;
+    }
+};
+
+/**
+ * abstract action with logging
+ */
+CoubObject.prototype.coubMovedThere = function () {
+    console.log("coub moved there");
+};
+/**
+ * abstract action with logging
+ */
+CoubObject.prototype.coubMovedOutThere = function () {
+    console.log("coub moved out there");
+};
+/**
+ * abstract action with logging
+ */
+CoubObject.prototype.coubMovedDuring = function (direction) {
+    console.log("coum moving now");
 }
 
 /**
@@ -210,7 +261,7 @@ function CoubObject(type, x, y, params) {
  * @param py column on grid
  * @constructor
  */
-function Coub(px, py){
+function Coub(px, py) {
     Coub.superclass.constructor.call(this, 'coub', px, py);
 
     /**
@@ -219,17 +270,17 @@ function Coub(px, py){
      * @param direction
      * @returns {return|boolean}
      */
-    this.canCoubMoveThere = function(direction) {
+    this.canCoubMoveThere = function (direction) {
         var infield = Coub.superclass.canCoubMoveThere.call(this, direction);
         var newPosition = new Vector(this.rx, this.ry, direction).getEndPoint();
-        if ((newPosition.x  >= 0) && (newPosition.x  <= 6) &&
-            (newPosition.y  >= 0) && (newPosition.y  <= 6)) {
+        if ((newPosition.x >= 0) && (newPosition.x <= 6) &&
+            (newPosition.y >= 0) && (newPosition.y <= 6)) {
             var target = g.blockfield[newPosition.x][newPosition.y];
             var efect = g.gamefield[newPosition.x][newPosition.y];
         }
-        var canMove2 = ((efect == null)||(efect.canCoubMoveThere(direction)));
-        var canMove = ((target == null)||(target.canCoubMoveThere(direction)))
-        return  infield && canMove && canMove2;
+        var canMove2 = ((efect == null) || (efect.canCoubMoveThere(direction)));
+        var canMove = ((target == null) || (target.canCoubMoveThere(direction)))
+        return infield && canMove && canMove2;
     }
 
     /**
@@ -239,7 +290,7 @@ function Coub(px, py){
      * if can't move execute tremor
      * @param direction direction for moving
      */
-    this.handleMovingAction = function(direction) {
+    this.handleMovingAction = function (direction) {
         if (this.canCoubMoveThere(direction)) {
             var currentblock = g.gamefield[this.rx][this.ry];
             if (currentblock != null) {
@@ -250,7 +301,9 @@ function Coub(px, py){
             var effect = g.gamefield[newPosition.x][newPosition.y];
             (target != null) ? target.coubMovedDuring(direction) : null;
             var self = this;
-            var f = (effect != null) ? function() {effect.coubMovedThere(self)}: null;
+            var f = (effect != null) ? function () {
+                effect.coubMovedThere(self)
+            } : null;
             this.move(direction, f);
         } else {
             this.tremor(direction);
@@ -271,14 +324,14 @@ function FinishCell(px, py) {
      * any coub type always can move there
      * @returns {boolean} true
      */
-    this.canCoubMoveThere = function() {
+    this.canCoubMoveThere = function () {
         return true;
     }
 
     /**
      * init next level if main coub there
      */
-    this.coubMovedThere = function() {
+    this.coubMovedThere = function () {
         var target = g.blockfield[this.rx][this.ry];
         if (target == null)
             g.nextLevel();
@@ -296,7 +349,7 @@ function notMovingBlock(px, py) {
      * any can't move there
      */
     notMovingBlock.superclass.constructor.call(this, 'notMovingBlock', px, py);
-    this.canCoubMoveThere = function() {
+    this.canCoubMoveThere = function () {
         return false;
     }
 }
@@ -315,27 +368,29 @@ function movingMovingBlock(px, py) {
      * @param direction direction of moving
      * @returns {return|boolean|return|boolean} true if moving can be executed
      */
-    this.canCoubMoveThere = function(direction) {
+    this.canCoubMoveThere = function (direction) {
         var infield = Coub.superclass.canCoubMoveThere.call(this, direction);
         var newPosition = new Vector(this.rx, this.ry, direction).getEndPoint();
-        if ((newPosition.x  >= 0) && (newPosition.x  <= 6) &&
-            (newPosition.y  >= 0) && (newPosition.y  <= 6)) {
+        if ((newPosition.x >= 0) && (newPosition.x <= 6) &&
+            (newPosition.y >= 0) && (newPosition.y <= 6)) {
             var target = g.blockfield[newPosition.x][newPosition.y];
             var efect = g.gamefield[newPosition.x][newPosition.y];
         }
-        var canMove2 = ((efect == null)||(efect.canCoubMoveThere(direction)));
-        return  infield && (target == undefined) && canMove2;
+        var canMove2 = ((efect == null) || (efect.canCoubMoveThere(direction)));
+        return infield && (target == undefined) && canMove2;
     }
 
     /**
      * this function executed during moving of main coub
      * @param direction direction of moving
      */
-    this.coubMovedDuring = function(direction) {
+    this.coubMovedDuring = function (direction) {
         var newPosition = new Vector(this.rx, this.ry, direction).getEndPoint();
         var effect = g.gamefield[newPosition.x][newPosition.y];
         var self = this;
-        var f = (effect != null) ? function() {effect.coubMovedThere(self)}: null;
+        var f = (effect != null) ? function () {
+            effect.coubMovedThere(self)
+        } : null;
         this.move(direction, f);
     }
 
@@ -367,7 +422,7 @@ function teleportBlock(px, py, group) {
      * move coub to pair teleport
      * @param coub coub for teleporting
      */
-    this.coubMovedThere = function(coub) {
+    this.coubMovedThere = function (coub) {
         if (this.pair != null)
             coub.movetor(this.pair.rx, this.pair.ry);
     }
@@ -376,7 +431,7 @@ function teleportBlock(px, py, group) {
      * if pair teleport is empty, coub can move there
      * @returns {boolean}
      */
-    this.canCoubMoveThere = function() {
+    this.canCoubMoveThere = function () {
         var target = g.blockfield[this.pair.rx][this.pair.ry]
         if (target == null) {
             return true
@@ -402,7 +457,7 @@ function DorButton(px, py, group) {
      * after moving coub there, open the dor
      * @param
      */
-    this.coubMovedThere = function(coub) {
+    this.coubMovedThere = function (coub) {
         if (this.pair != null)
             this.pair.open();
     }
@@ -410,7 +465,7 @@ function DorButton(px, py, group) {
     /**
      * if coub need move out, check if door coub is empty, close paired door.
      */
-    this.coubMovedOutThere = function() {
+    this.coubMovedOutThere = function () {
         if (this.pair != null) {
             var target = g.blockfield[this.pair.rx][this.pair.ry]
             if (target == null) {
@@ -423,7 +478,7 @@ function DorButton(px, py, group) {
      * coub an main coub always can move there
      * @returns {boolean}
      */
-    this.canCoubMoveThere = function() {
+    this.canCoubMoveThere = function () {
         return true;
     }
 }
@@ -445,14 +500,14 @@ function Dor(px, py, group) {
      * coub can move there only if door is opened
      * @returns {boolean}
      */
-    this.canCoubMoveThere = function() {
+    this.canCoubMoveThere = function () {
         return this.isOpen;
     }
 
     /**
      * if coub will be moved out and button is not pressed, close the door
      */
-    this.coubMovedOutThere = function() {
+    this.coubMovedOutThere = function () {
         var block = g.blockfield[this.pair.rx][this.pair.ry];
         if (block == null) {
             this.close();
@@ -462,7 +517,7 @@ function Dor(px, py, group) {
     /**
      * open the door
      */
-    this.open = function() {
+    this.open = function () {
         this.isOpen = true;
         this.node.fadeTo("fast", 0);
     }
@@ -470,7 +525,7 @@ function Dor(px, py, group) {
     /**
      * close the door
      */
-    this.close = function() {
+    this.close = function () {
         this.isOpen = false;
         this.node.fadeTo("fast", 1);
     }
@@ -505,68 +560,68 @@ function LevelGenerator() {
      * @type {Array}
      */
     this.level = [];
-    this.level[1] = [[1,   8,   0,   0,   0,   0,   0],
-                     [0,   8,   0,   8,   8,   8,   0],
-                     [0,   8,   0,   8,   9,   8,   0],
-                     [0,   8,   0,   8,   0,   8,   0],
-                     [0,   8,   0,   0,   0,   8,   0],
-                     [0,   8,   8,   8,   8,   8,   0],
-                     [0,   0,   0,   0,   0,   0,   0]];
+    this.level[1] = [[1, 8, 0, 0, 0, 0, 0],
+        [0, 8, 0, 8, 8, 8, 0],
+        [0, 8, 0, 8, 9, 8, 0],
+        [0, 8, 0, 8, 0, 8, 0],
+        [0, 8, 0, 0, 0, 8, 0],
+        [0, 8, 8, 8, 8, 8, 0],
+        [0, 0, 0, 0, 0, 0, 0]];
 
 
-    this.level[2] = [[0,   8,   0,   0,   0,   0,   9],
-                     [7,   8,   0,   7,   7,   8,   7],
-                     [0,   7,   0,   8,   1,   8,   7],
-                     [7,   0,   7,   0,   7,   8,   0],
-                     [0,   7,   8,   7,   0,   8,   0],
-                     [7,   0,   7,   0,   0,   0,   0],
-                     [0,   0,   0,   0,   0,   0,   0]];
+    this.level[2] = [[0, 8, 0, 0, 0, 0, 9],
+        [7, 8, 0, 7, 7, 8, 7],
+        [0, 7, 0, 8, 1, 8, 7],
+        [7, 0, 7, 0, 7, 8, 0],
+        [0, 7, 8, 7, 0, 8, 0],
+        [7, 0, 7, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]];
 
-    this.level[3] = [[0,   7,   0,   0,   8,   8,   1],
-                     [0,   8,   0,   8,   9,   8,   0],
-                     [0,   8,   0,   8,   0,   8,   0],
-                     [0,   8,   0,   8,   0,   8,   0],
-                     [0,   8,   0,   8,   0,   8,   0],
-                     [0,   8,   0,   8,   0,   8,  41],
-                     [41,  8,   0,   0,   7,   0,   8]];
+    this.level[3] = [[0, 7, 0, 0, 8, 8, 1],
+        [0, 8, 0, 8, 9, 8, 0],
+        [0, 8, 0, 8, 0, 8, 0],
+        [0, 8, 0, 8, 0, 8, 0],
+        [0, 8, 0, 8, 0, 8, 0],
+        [0, 8, 0, 8, 0, 8, 41],
+        [41, 8, 0, 0, 7, 0, 8]];
 
-    this.level[4] = [[0,   0, 512,   0,   0,   7, 511],
-                     [0,   8,   7,   7,   1,   7,   7],
-                     [0,   8,   7,   7,   7,   7,   7],
-                     [0,   8,   7,   7,   7,   7,   7],
-                     [0,   0, 522, 532, 542, 552,   7],
-                     [8,   7,   7,   7,   7,   7,   9],
-                     [8, 521, 531, 541, 551,   0,   8]];
+    this.level[4] = [[0, 0, 512, 0, 0, 7, 511],
+        [0, 8, 7, 7, 1, 7, 7],
+        [0, 8, 7, 7, 7, 7, 7],
+        [0, 8, 7, 7, 7, 7, 7],
+        [0, 0, 522, 532, 542, 552, 7],
+        [8, 7, 7, 7, 7, 7, 9],
+        [8, 521, 531, 541, 551, 0, 8]];
 
-    this.level[6] = [[1,   0,   0,  41,   0,   0,   42],
-                     [0,   7,   0,   8,   0,   0,   0],
-                     [0,  42,   0,   8,   0,   0,  41],
-                     [8,   8,   8,   8,   0,   0,   0],
-                     [0,   0,   0,   0,   0,   0, 511],
-                     [8,   8,   0,   0,   0,   0,   0],
-                     [9,   512,   0,   0,   0,   0,   0]];
+    this.level[6] = [[1, 0, 0, 41, 0, 0, 42],
+        [0, 7, 0, 8, 0, 0, 0],
+        [0, 42, 0, 8, 0, 0, 41],
+        [8, 8, 8, 8, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 511],
+        [8, 8, 0, 0, 0, 0, 0],
+        [9, 512, 0, 0, 0, 0, 0]];
 
-    this.level[5] = [[9,   0,   46,   8,  41,   0, 44],
-                     [0,   0,   0,   8,   0,   0,   0],
-                     [46,   0,  45,   8,  40,   0,  43],
-                     [8,   8,   8,   8,   8,   8,  8],
-                     [44,  0,  41,   8,  42,   0,  42],
-                     [0,   0,   0,   8,   0,   0,   1],
-                     [45,  0,  40,   8,  43,   0,   8]];
+    this.level[5] = [[9, 0, 46, 8, 41, 0, 44],
+        [0, 0, 0, 8, 0, 0, 0],
+        [46, 0, 45, 8, 40, 0, 43],
+        [8, 8, 8, 8, 8, 8, 8],
+        [44, 0, 41, 8, 42, 0, 42],
+        [0, 0, 0, 8, 0, 0, 1],
+        [45, 0, 40, 8, 43, 0, 8]];
 
-    this.level[7] = [[1,    7,   0,  41, 511,   0,  42],
-                     [7,    8,   7,   8,   0,   0,   0],
-                     [0,    0,   0,   8,   0,   8,   0],
-                     [41,   0, 521, 522,   0,   8, 562],
-                     [512,572,   8,   0,  42,   8, 582],
-                     [0,  571,   0,   0, 581,   8, 592],
-                     [591,  0,   0,   0, 561,   8,   9]];
+    this.level[7] = [[1, 7, 0, 41, 511, 0, 42],
+        [7, 8, 7, 8, 0, 0, 0],
+        [0, 0, 0, 8, 0, 8, 0],
+        [41, 0, 521, 522, 0, 8, 562],
+        [512, 572, 8, 0, 42, 8, 582],
+        [0, 571, 0, 0, 581, 8, 592],
+        [591, 0, 0, 0, 561, 8, 9]];
 
     /**
      * construct level using defined level matrix
      * @param level number of level
      */
-    this.initLevel = function(level) {
+    this.initLevel = function (level) {
         var lvl = this.level[level];
         var objects1 = [];
         var objects2 = [];
@@ -589,7 +644,7 @@ function LevelGenerator() {
                 if (type == 7) {
                     objects2[k2++] = new movingMovingBlock(i, j);
                 }
-                if (type >=40 && type <= 49) {
+                if (type >= 40 && type <= 49) {
                     var number = type % 10;
                     if (teleports[number] == null) {
                         teleports[number] = new teleportBlock(i, j, number);
@@ -601,7 +656,7 @@ function LevelGenerator() {
                     }
 
                 }
-                if (type >=501 && type <= 592) {
+                if (type >= 501 && type <= 592) {
                     var tp = type % 10;
                     var number = (type - tp - 500) / 10;
 
@@ -634,8 +689,6 @@ function LevelGenerator() {
     }
 
 
-
-
 }
 
 /**
@@ -656,43 +709,43 @@ extend(teleportBlock, CoubObject);
 function Game() {
     this.currentLevel = 1;
     this.gamefield = [],
-    this.blockfield = [],
-    this.field = new Gamefield(),
+        this.blockfield = [],
+        this.field = new Gamefield(),
 
     /**
      * init game. construct level by curreint level which setted in game
      */
-    this.initGame = function() {
-        this.field.render(7, 7);
+        this.initGame = function () {
+            this.field.render(7, 7);
 
-        for (var i = 0; i < 7; i++) {
-            this.gamefield[i] = [];
-        }
-        for (var i = 0; i < 7; i++) {
-            this.blockfield[i] = [];
-        }
-        var lg = new LevelGenerator();
-        lg.initLevel(this.currentLevel);
-    },
+            for (var i = 0; i < 7; i++) {
+                this.gamefield[i] = [];
+            }
+            for (var i = 0; i < 7; i++) {
+                this.blockfield[i] = [];
+            }
+            var lg = new LevelGenerator();
+            lg.initLevel(this.currentLevel);
+        },
     /**
      * construct next level.
      * if this is last level, show "you win" message and construct firs level
      */
-    this.nextLevel = function() {
-        if (this.currentLevel == 7) {
-            alert("you win");
-            this.currentLevel = 1;
-        } else {
-            this.currentLevel++;
+        this.nextLevel = function () {
+            if (this.currentLevel == 7) {
+                alert("you win");
+                this.currentLevel = 1;
+            } else {
+                this.currentLevel++;
+            }
+            $('body').html('<div class="grid"><div class="gamefield"></div></div>');
+            this.initGame();
         }
-        $('body').html('<div class="grid"><div class="gamefield"></div></div>');
-        this.initGame();
-    }
 
     /**
      * restart current level
      */
-    this.restart = function() {
+    this.restart = function () {
         $('body').html('<div class="grid"><div class="gamefield"></div></div>');
         this.initGame();
     }
@@ -700,11 +753,11 @@ function Game() {
     /**
      * init user interface controll
      */
-    this.addUIcontroll = function() {
-        $('body').keyup(function(event) {
+    this.addUIcontroll = function () {
+        $('body').keyup(function (event) {
             g.pressed = false;
         });
-        $('body').keydown(function(event) {
+        $('body').keydown(function (event) {
             direction = 0;
             if (!g.pressed) {
                 g.pressed = true;
@@ -736,9 +789,9 @@ var g;
 /**
  * create game when document will be loaded
  */
-$(document).ready(function() {
+$(document).ready(function () {
     document.addEventListener("keydown", function (e) {
-        if([37,38,39,40].indexOf(e.keyCode) > -1){
+        if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
             e.preventDefault();
             // Do whatever else you want with the keydown event (i.e. your navigation).
         }
