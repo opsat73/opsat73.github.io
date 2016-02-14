@@ -701,17 +701,33 @@ function Game() {
      * init user interface controll
      */
     this.addUIcontroll = function() {
+        $('body').keyup(function(event) {
+            g.pressed = false;
+        });
         $('body').keydown(function(event) {
             direction = 0;
-            switch(event.keyCode) {
-                case 37: direction = 4; break;
-                case 38: direction = 1; break;
-                case 39: direction = 2; break;
-                case 40: direction = 3; break;
-                case 82: g.restart(); break;
-            }
-            console.log(direction + ' ' + event.keyCode)
+            if (!g.pressed) {
+                g.pressed = true;
+                switch (event.keyCode) {
+                    case 37:
+                        direction = 4;
+                        break;
+                    case 38:
+                        direction = 1;
+                        break;
+                    case 39:
+                        direction = 2;
+                        break;
+                    case 40:
+                        direction = 3;
+                        break;
+                    case 82:
+                        g.restart();
+                        break;
+                }
+                console.log(direction + ' ' + event.keyCode)
                 g.coub.handleMovingAction(direction);
+            }
         });
     }
 }
