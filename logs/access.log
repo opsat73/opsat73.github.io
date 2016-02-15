@@ -3215,3 +3215,7 @@
 127.0.0.1 - - [15/Feb/2016:01:56:15 +0200] "GET /res/background.png HTTP/1.1" 304 180 "http://coubquest/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
 127.0.0.1 - - [15/Feb/2016:01:56:15 +0200] "GET /res/block.png HTTP/1.1" 304 179 "http://coubquest/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
 127.0.0.1 - - [15/Feb/2016:01:56:15 +0200] "GET /res/finish.svg HTTP/1.1" 304 179 "http://coubquest/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+127.0.0.1 - - [15/Feb/2016:10:13:41 +0200] "GET / HTTP/1.1" 200 594 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+127.0.0.1 - - [15/Feb/2016:10:13:41 +0200] "GET /coubquest_general.css HTTP/1.1" 200 680 "http://coubquest/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+127.0.0.1 - - [15/Feb/2016:10:13:41 +0200] "GET /coubquest.js HTTP/1.1" 200 5029 "http://coubquest/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"
+127.0.0.1 - - [15/Feb/2016:10:13:41 +0200] "GET /favicon.ico HTTP/1.1" 404 498 "http://coubquest/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36"

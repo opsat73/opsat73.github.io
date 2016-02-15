@@ -191,35 +191,11 @@ CoubObject.prototype.tremor = function (direction) {
     }
     backward = foward == '-' ? '+' : '-';
 
-    this.node.animate({[vector]
-    :
-    foward + "=8"
-}, 50
-)
-;
-this.node.animate({[vector]
-:
-backward + "=8"
-},
-50
-)
-;
-this.node.animate({[vector]
-:
-foward + "=4"
-},
-50
-)
-;
-this.node.animate({[vector]
-:
-backward + "=4"
-},
-50
-)
-;
-}
-;
+    this.node.animate({[vector]:foward + "=8"}, 50);
+    this.node.animate({[vector]:backward + "=8"},50);
+    this.node.animate({[vector]:foward + "=4"},50);
+    this.node.animate({[vector]:backward + "=4"},50);
+};
 
 /**
  * check if coub can move there. check end of grid
@@ -709,8 +685,8 @@ extend(teleportBlock, CoubObject);
 function Game() {
     this.currentLevel = 1;
     this.gamefield = [],
-        this.blockfield = [],
-        this.field = new Gamefield(),
+    this.blockfield = [],
+    this.field = new Gamefield(),
 
     /**
      * init game. construct level by curreint level which setted in game
